@@ -1,234 +1,1235 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia do Lorin | Agendamento</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barbearia do Lorin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0a0a0a;
+      color: #e8e0d0;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
 
-    <style>
-        /* CSS EMBUTIDO - DESIGN ESCURO E MODERNO */
-        :root {
-            --bg-color: #09090b;
-            --surface-color: #18181b;
-            --primary-glow: #d4af37; /* Dourado remetendo a barbearia clássica, mas com brilho */
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-        }
+    /* ─── TOKENS ───────────────────────────────────────── */
+    :root {
+      --gold:        #c9a84c;
+      --gold-light:  #e8c97a;
+      --gold-dim:    rgba(201,168,76,0.15);
+      --dark:        #0a0a0a;
+      --dark-2:      #111111;
+      --dark-3:      #1a1a1a;
+      --dark-4:      #222222;
+      --cream:       #e8e0d0;
+      --cream-dim:   rgba(232,224,208,0.6);
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
+    /* ─── SCROLLBAR ─────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark-2); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            overflow-x: hidden;
-        }
+    /* ─── NOISE TEXTURE OVERLAY ─────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
 
-        /* Cabecalho */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(9, 9, 11, 0.8);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-        }
+    /* ─── NAVBAR ─────────────────────────────────────────── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(201,168,76,0.2);
+    }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--cream);
+    }
+    .nav-brand span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--gold);
+      color: #0a0a0a !important;
+      font-weight: 700 !important;
+      padding: 0.55rem 1.4rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      transition: background 0.25s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+    .nav-cta::after { display: none !important; }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--cream);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(20px);
+      padding: 2rem;
+      gap: 1.5rem;
+      border-bottom: 1px solid var(--gold-dim);
+      z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--cream-dim);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
 
-        .logo span {
-            color: var(--primary-glow);
-        }
+    /* ─── HERO ───────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 8rem 2rem 4rem;
+    }
+    /* radial background glow */
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 20%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 900px; height: 900px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    /* decorative line grid */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 9vw, 7.5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+    .hero-title .highlight {
+      color: var(--gold);
+      display: block;
+    }
+    .hero-subtitle {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cream-dim);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-desc {
+      max-width: 520px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(232,224,208,0.55);
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s forwards;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--gold);
+      color: #0a0a0a;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      border-radius: 4px;
+      border: 2px solid var(--gold);
+      transition: background 0.25s, color 0.25s, transform 0.2s, box-shadow 0.25s;
+      box-shadow: 0 0 24px rgba(201,168,76,0.25);
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px rgba(201,168,76,0.45);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      color: var(--cream);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      border-radius: 4px;
+      border: 2px solid rgba(232,224,208,0.2);
+      transition: border-color 0.25s, color 0.25s, transform 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
 
-        /* Sessão Principal (Hero) */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, rgba(9, 9, 11, 1) 50%);
-        }
+    /* hero stats */
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(201,168,76,0.15);
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.95s forwards;
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(232,224,208,0.45);
+      margin-top: 0.25rem;
+    }
 
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            line-height: 1.1;
-            letter-spacing: -2px;
-        }
+    /* hero decorative barber pole SVG */
+    .hero-deco {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(380px, 35vw);
+      opacity: 0;
+      animation: fadeIn 1.2s 0.8s forwards;
+    }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
+    /* ─── SECTION COMMONS ────────────────────────────────── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; width: 100%; }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .section-tag::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+    }
+    .section-title span { color: var(--gold); }
+    .section-subtitle {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--cream-dim);
+      max-width: 560px;
+      margin-top: 1rem;
+    }
 
-        /* Botão com efeito Glow estilo Gemini/Digital Architect */
-        .btn-glow {
-            background: var(--primary-glow);
-            color: #000;
-            padding: 16px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            border: none;
-            cursor: pointer;
-        }
+    /* ─── MARQUEE STRIP ──────────────────────────────────── */
+    #strip {
+      background: var(--gold);
+      padding: 0.9rem 0;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #0a0a0a;
+      padding: 0 2.5rem;
+    }
+    .marquee-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(10,10,10,0.4);
+      flex-shrink: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
 
-        .btn-glow:hover {
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.7);
-            transform: translateY(-2px);
-        }
+    /* ─── SERVICES ───────────────────────────────────────── */
+    #services { background: var(--dark-2); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .service-card {
+      background: var(--dark-3);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 12px;
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold-dim) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.08);
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 52px; height: 52px;
+      background: var(--gold-dim);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      position: relative;
+    }
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.8rem;
+      position: relative;
+    }
+    .service-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+      position: relative;
+    }
+    .service-price {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      position: relative;
+    }
 
-        /* Seção de Serviços */
-        .services {
-            padding: 100px 5%;
-            text-align: center;
-        }
+    /* ─── ABOUT ──────────────────────────────────────────── */
+    #about { background: var(--dark); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+    .about-visual {
+      position: relative;
+      aspect-ratio: 3/4;
+      max-height: 520px;
+    }
+    .about-frame {
+      width: 100%;
+      height: 100%;
+      background: var(--dark-3);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-frame-inner {
+      text-align: center;
+      padding: 2rem;
+    }
+    .about-frame-inner svg { opacity: 0.15; }
+    .about-frame-label {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.5);
+    }
+    /* corner decorations */
+    .about-frame::before,
+    .about-frame::after {
+      content: '';
+      position: absolute;
+      width: 40px; height: 40px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .about-frame::before {
+      top: -1px; left: -1px;
+      border-width: 2px 0 0 2px;
+      border-radius: 2px 0 0 0;
+    }
+    .about-frame::after {
+      bottom: -1px; right: -1px;
+      border-width: 0 2px 2px 0;
+      border-radius: 0 0 2px 0;
+    }
+    .about-badge {
+      position: absolute;
+      bottom: -20px; right: -20px;
+      width: 120px; height: 120px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #0a0a0a;
+      font-weight: 700;
+      line-height: 1.2;
+      box-shadow: 0 8px 32px rgba(201,168,76,0.35);
+    }
+    .about-badge-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+    }
+    .about-badge-text {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(232,224,208,0.65);
+      margin-bottom: 1.5rem;
+    }
+    .about-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.88rem;
+      color: var(--cream-dim);
+    }
+    .highlight-item::before {
+      content: '✦';
+      color: var(--gold);
+      flex-shrink: 0;
+      font-size: 0.7rem;
+    }
 
-        .services h2 {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-        }
+    /* ─── BOOKING ─────────────────────────────────────────── */
+    #booking { background: var(--dark-2); }
+    .booking-inner {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .calendly-wrapper {
+      background: var(--dark-3);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 700px;
+    }
+    /* Calendly inline embed */
+    .calendly-inline-widget {
+      min-width: 320px;
+      width: 100%;
+      height: 700px;
+    }
 
-        .cards-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
+    /* ─── TESTIMONIALS ────────────────────────────────────── */
+    #testimonials { background: var(--dark); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .testimonial-card {
+      background: var(--dark-3);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .testimonial-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      transform: translateY(-3px);
+    }
+    .stars {
+      color: var(--gold);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+    .testimonial-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(232,224,208,0.7);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-text::before { content: '\201C'; color: var(--gold); font-size: 1.5rem; }
+    .testimonial-text::after  { content: '\201D'; color: var(--gold); font-size: 1.5rem; }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .author-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .author-name { font-weight: 600; color: var(--cream); font-size: 0.9rem; }
+    .author-tag  { font-size: 0.75rem; color: var(--cream-dim); }
 
-        .card {
-            background-color: var(--surface-color);
-            padding: 40px 30px;
-            border-radius: 16px;
-            width: 300px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
+    /* ─── CTA BANNER ─────────────────────────────────────── */
+    #cta {
+      background: linear-gradient(135deg, #111005 0%, #0a0a0a 50%, #0d0c04 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: -60%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--cream);
+      position: relative;
+    }
+    .cta-title span { color: var(--gold); }
+    .cta-sub {
+      font-size: 1.05rem;
+      color: var(--cream-dim);
+      margin: 1.2rem auto 2.5rem;
+      max-width: 500px;
+      position: relative;
+    }
 
-        .card:hover {
-            border-color: var(--primary-glow);
-            transform: translateY(-10px);
-        }
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--dark-2);
+      border-top: 1px solid rgba(201,168,76,0.12);
+      padding: 3.5rem 2rem 2rem;
+    }
+    .footer-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+    .footer-brand span { color: var(--gold); }
+    .footer-desc {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: rgba(232,224,208,0.45);
+      max-width: 300px;
+    }
+    .footer-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(232,224,208,0.5);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-divider {
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+      border: none;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 1.5rem auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(232,224,208,0.3);
+    }
+    .footer-copy span { color: var(--gold); }
 
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--primary-glow);
-        }
+    /* ─── FLOATING WHATSAPP ──────────────────────────────── */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 1.8rem; right: 1.8rem;
+      z-index: 200;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: #25D366;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+    }
 
-        .card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
+    /* ─── SCROLL REVEAL ──────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
 
-        /* Seção de Agendamento (Onde vai o Calendly) */
-        .agendamento {
-            padding: 100px 5%;
-            background-color: var(--surface-color);
-            text-align: center;
-        }
+    /* ─── KEYFRAMES ──────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 0.9; }
+    }
 
-        .calendly-wrapper {
-            max-width: 800px;
-            margin: 40px auto;
-            background: var(--bg-color);
-            border-radius: 12px;
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            padding: 40px 20px;
-        }
-
-        .calendly-aviso {
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-    </style>
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-deco { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { max-height: 320px; aspect-ratio: auto; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 1.2rem; }
+      #hero { padding: 6rem 1.2rem 3rem; }
+      .hero-stats { gap: 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .about-highlights { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">Barbearia do <span>Lorin</span></div>
-        <a href="#agendamento" class="btn-glow" style="padding: 10px 25px; font-size: 0.9rem;">Agendar</a>
-    </header>
+<!-- ══════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#" class="nav-brand">Barbearia <span>do Lorin</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Serviços</a></li>
+    <li><a href="#about">Sobre</a></li>
+    <li><a href="#testimonials">Depoimentos</a></li>
+    <li><a href="#booking" class="nav-cta">Agendar</a></li>
+  </ul>
+  <button class="hamburger" id="ham-btn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#services" onclick="closeMobileMenu()">Serviços</a>
+  <a href="#about" onclick="closeMobileMenu()">Sobre</a>
+  <a href="#testimonials" onclick="closeMobileMenu()">Depoimentos</a>
+  <a href="#booking" onclick="closeMobileMenu()" style="color:var(--gold);font-weight:700;">→ Agendar Agora</a>
+</div>
 
-    <section class="hero">
-        <h1>Estilo.<br>Precisão.</h1>
-        <p>A experiência clássica de barbearia conectada à facilidade do digital. Seu visual impecável a um clique de distância.</p>
-        <a href="#agendamento" class="btn-glow" id="btn-hero">Garantir Meu Horário</a>
-    </section>
+<!-- ══════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Belo Horizonte, MG &mdash; Estilo &amp; Tradição</div>
+    <h1 class="hero-title">
+      Barbearia
+      <span class="highlight">do Lorin</span>
+    </h1>
+    <p class="hero-subtitle">O corte que te define.</p>
+    <p class="hero-desc">
+      Do degradê ao navalhado, cada serviço é executado com precisão,
+      atenção aos detalhes e o cuidado que você merece.
+      Marque seu horário e viva a experiência.
+    </p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Agendar Horário
+      </a>
+      <a href="#services" class="btn-secondary">
+        Ver Serviços
+      </a>
+    </div>
 
-    <section class="services">
-        <h2>Nossos Serviços</h2>
-        <div class="cards-container">
-            <div class="card">
-                <h3>Corte Clássico</h3>
-                <p>Na tesoura ou na máquina, com degradê impecável e finalização com pomada premium.</p>
-            </div>
-            <div class="card">
-                <h3>Barba Terapia</h3>
-                <p>Alinhamento perfeito, toalha quente, massagem facial e navalha para um acabamento liso.</p>
-            </div>
-            <div class="card">
-                <h3>Combo Lorin</h3>
-                <p>Cabelo e Barba. O trato completo para você sair pronto para qualquer compromisso.</p>
-            </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Clientes atendidos</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Avaliação média</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Satisfação garantida</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative SVG (barber scissors/comb) -->
+  <div class="hero-deco" aria-hidden="true">
+    <svg viewBox="0 0 320 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Razor -->
+      <rect x="100" y="40" width="120" height="22" rx="11" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+      <rect x="110" y="44" width="80" height="14" rx="7" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
+      <!-- Handle down -->
+      <rect x="148" y="62" width="24" height="200" rx="12" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+      <!-- Comb lines -->
+      <g stroke="rgba(201,168,76,0.2)" stroke-width="1">
+        <line x1="60" y1="140" x2="260" y2="140"/><line x1="60" y1="155" x2="260" y2="155"/>
+        <line x1="60" y1="170" x2="260" y2="170"/><line x1="60" y1="185" x2="260" y2="185"/>
+      </g>
+      <!-- Scissors shape -->
+      <circle cx="100" cy="310" r="22" stroke="rgba(201,168,76,0.3)" stroke-width="1.5" fill="none"/>
+      <circle cx="220" cy="310" r="22" stroke="rgba(201,168,76,0.3)" stroke-width="1.5" fill="none"/>
+      <line x1="116" y1="298" x2="204" y2="322" stroke="rgba(201,168,76,0.25)" stroke-width="2"/>
+      <line x1="116" y1="322" x2="204" y2="298" stroke="rgba(201,168,76,0.25)" stroke-width="2"/>
+      <!-- Stars -->
+      <circle cx="40" cy="60" r="2" fill="rgba(201,168,76,0.4)"/>
+      <circle cx="280" cy="100" r="3" fill="rgba(201,168,76,0.3)"/>
+      <circle cx="290" cy="250" r="2" fill="rgba(201,168,76,0.35)"/>
+      <circle cx="30" cy="370" r="2.5" fill="rgba(201,168,76,0.3)"/>
+      <!-- Decorative ring -->
+      <circle cx="160" cy="210" r="100" stroke="rgba(201,168,76,0.07)" stroke-width="1" stroke-dasharray="6 4"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     MARQUEE STRIP
+═══════════════════════════════════════════════ -->
+<div id="strip">
+  <div class="marquee-track">
+    <!-- items doubled for seamless loop -->
+    <span class="marquee-item"><span class="marquee-dot"></span>Corte de Cabelo</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Barba</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Degradê</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Sobrancelha</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Navalhado</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Pigmentação</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Hidratação</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Barbearia do Lorin</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Corte de Cabelo</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Barba</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Degradê</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Sobrancelha</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Navalhado</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Pigmentação</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Hidratação</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Barbearia do Lorin</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SERVICES
+═══════════════════════════════════════════════ -->
+<section id="services">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">O que oferecemos</div>
+      <h2 class="section-title">Nossos <span>Serviços</span></h2>
+      <p class="section-subtitle">Cada serviço pensado para realçar o melhor em você, com técnica e precisão.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">✂️</div>
+        <div class="service-name">Corte de Cabelo</div>
+        <div class="service-desc">Corte personalizado de acordo com o formato do seu rosto e estilo pessoal. Do clássico ao contemporâneo.</div>
+        <div class="service-price">A partir de R$ 35</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">🪒</div>
+        <div class="service-name">Barba Completa</div>
+        <div class="service-desc">Modelagem, navalhado e hidratação para uma barba impecável. Toalha quente e finalização premium.</div>
+        <div class="service-price">A partir de R$ 30</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">💈</div>
+        <div class="service-name">Corte + Barba</div>
+        <div class="service-desc">O combo completo para sair pronto. Experiência completa de barbearia com atenção total a cada detalhe.</div>
+        <div class="service-price">A partir de R$ 60</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">🎨</div>
+        <div class="service-name">Degradê</div>
+        <div class="service-desc">Técnica de degradê executada com precisão na máquina. Do skin fade ao degradê alto, perfeito sempre.</div>
+        <div class="service-price">A partir de R$ 40</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">⚡</div>
+        <div class="service-name">Sobrancelha</div>
+        <div class="service-desc">Design de sobrancelha para realçar e enquadrar seu rosto. Limpeza e modelagem com navalha.</div>
+        <div class="service-price">A partir de R$ 15</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">💧</div>
+        <div class="service-name">Hidratação &amp; Tratamento</div>
+        <div class="service-desc">Tratamento capilar para devolver brilho, maciez e saúde aos fios. Indicado para todos os tipos de cabelo.</div>
+        <div class="service-price">A partir de R$ 45</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-frame">
+          <div class="about-frame-inner">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="55" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="8 4"/>
+              <text x="60" y="50" text-anchor="middle" font-family="Playfair Display, serif" font-size="24" fill="#c9a84c" font-weight="700">BL</text>
+              <text x="60" y="75" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" fill="rgba(201,168,76,0.6)" letter-spacing="4">BARBEARIA</text>
+              <text x="60" y="90" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="8" fill="rgba(201,168,76,0.6)" letter-spacing="4">DO LORIN</text>
+            </svg>
+            <p class="about-frame-label">Foto em breve</p>
+          </div>
         </div>
-    </section>
-
-    <section id="agendamento" class="agendamento">
-        <h2>Agende seu Atendimento</h2>
-        <p style="color: var(--text-muted); margin-top: 10px;">Escolha o melhor dia e horário abaixo.</p>
-        
-        <div class="calendly-wrapper">
-            <p class="calendly-aviso">⚙️ [ Espaço reservado para o Widget do Calendly ]</p>
+        <div class="about-badge">
+          <span class="about-badge-num">5+</span>
+          <span class="about-badge-text">Anos de<br>Experiência</span>
         </div>
-    </section>
+      </div>
 
-    <footer>
-        &copy; 2026 Barbearia do Lorin. Todos os direitos reservados.
-    </footer>
+      <div class="about-text">
+        <div class="reveal">
+          <div class="section-tag">Sobre nós</div>
+          <h2 class="section-title">Mais que um corte,<br>uma <span>experiência</span></h2>
+        </div>
+        <div class="reveal reveal-delay-1">
+          <p>A Barbearia do Lorin nasceu da paixão pela arte da barbearia e pelo cuidado com cada cliente. Aqui, você não é só um número na fila — você é atendido com atenção, respeito e técnica de verdade.</p>
+          <p>Nossa missão é simples: que você saia daqui se sentindo melhor do que entrou. Com o corte certo, a barba no ponto e aquele toque de confiança que só um bom serviço pode dar.</p>
+        </div>
+        <div class="about-highlights reveal reveal-delay-2">
+          <div class="highlight-item">Ambiente aconchegante</div>
+          <div class="highlight-item">Produtos de qualidade</div>
+          <div class="highlight-item">Agendamento online fácil</div>
+          <div class="highlight-item">Atendimento personalizado</div>
+          <div class="highlight-item">Profissionais experientes</div>
+          <div class="highlight-item">Pontualidade garantida</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Efeito de rolagem suave extra para o botão do Hero
-        document.getElementById('btn-hero').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector('#agendamento').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    </script>
+<!-- ══════════════════════════════════════════════
+     BOOKING (CALENDLY)
+═══════════════════════════════════════════════ -->
+<section id="booking">
+  <div class="container">
+    <div class="booking-inner reveal">
+      <div class="section-tag">Agendamento Online</div>
+      <h2 class="section-title">Reserve seu <span>Horário</span></h2>
+      <p class="section-subtitle" style="margin: 1rem auto 0; text-align:center;">
+        Escolha o serviço, o dia e o horário que preferir. Rápido, fácil e sem complicação.
+      </p>
+    </div>
 
+    <div class="calendly-wrapper reveal reveal-delay-1">
+      <!-- ================================================
+           INSTRUÇÕES PARA O DONO:
+           1. Vá em calendly.com e crie sua conta (é gratuito)
+           2. Crie um "Event Type" para cada serviço
+           3. Copie o link do seu perfil Calendly
+              Ex: https://calendly.com/SEU-NOME
+           4. Substitua "SEU-USUARIO-AQUI" abaixo pelo seu link
+           ================================================ -->
+      <div
+        class="calendly-inline-widget"
+        data-url="https://calendly.com/SEU-USUARIO-AQUI?hide_event_type_details=0&background_color=111111&text_color=e8e0d0&primary_color=c9a84c"
+        style="min-width:320px; height:700px;"
+      ></div>
+      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+      <!-- Placeholder visível até o Calendly estar configurado -->
+      <div id="calendly-placeholder" style="
+        display:flex; flex-direction:column; align-items:center;
+        justify-content:center; min-height:500px; gap:1.5rem;
+        padding: 3rem;
+      ">
+        <div style="font-size:3rem;">📅</div>
+        <h3 style="font-family:var(--font-display); font-size:1.5rem; color:var(--cream);">
+          Agendamento Online
+        </h3>
+        <p style="color:var(--cream-dim); text-align:center; max-width:400px; line-height:1.7;">
+          O sistema de agendamento será ativado assim que o link do Calendly for configurado.
+          Por enquanto, entre em contato pelo WhatsApp abaixo para marcar seu horário!
+        </p>
+        <a href="#" class="btn-primary" style="margin-top:0.5rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Agendar pelo WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">Quem fala por nós</div>
+      <h2 class="section-title">O que nossos <span>clientes</span> dizem</h2>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Melhor barbearia que já fui. O Lorin entende exatamente o que você quer sem precisar explicar mil vezes. Saí de lá com um corte incrível!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MR</div>
+          <div>
+            <div class="author-name">Mateus R.</div>
+            <div class="author-tag">Cliente há 2 anos</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Atendimento top, ambiente ótimo e a barba ficou perfeita. O sistema de agendamento facilita demais, nunca fico esperando. Recomendo muito!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">GS</div>
+          <div>
+            <div class="author-name">Gabriel S.</div>
+            <div class="author-tag">Cliente fiel</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-3">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Lugar caprichado, profissional de verdade. O degradê ficou impecável e o tratamento que recebi foi diferenciado. Já indiquei pra todos os amigos.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">RF</div>
+          <div>
+            <div class="author-name">Ricardo F.</div>
+            <div class="author-tag">Cliente há 1 ano</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="container" style="position:relative; z-index:1;">
+    <h2 class="cta-title reveal">Pronto para o melhor <span>corte da sua vida?</span></h2>
+    <p class="cta-sub reveal reveal-delay-1">Não deixe para depois. Agende agora mesmo e garanta seu horário na Barbearia do Lorin.</p>
+    <div class="reveal reveal-delay-2">
+      <a href="#booking" class="btn-primary" style="display:inline-flex;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Agendar Agora
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Barbearia <span>do Lorin</span></div>
+      <p class="footer-desc">Estilo, precisão e cuidado em cada detalhe. Venha viver a experiência da Barbearia do Lorin em Belo Horizonte, MG.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Menu</div>
+      <ul class="footer-links">
+        <li><a href="#services">Serviços</a></li>
+        <li><a href="#about">Sobre nós</a></li>
+        <li><a href="#testimonials">Depoimentos</a></li>
+        <li><a href="#booking">Agendamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Contato</div>
+      <ul class="footer-links">
+        <!-- Substitua pelos dados reais -->
+        <li><a href="https://wa.me/5531999999999">WhatsApp</a></li>
+        <li><a href="https://instagram.com/barbeariadolorin">Instagram</a></li>
+        <li><a href="#">Belo Horizonte, MG</a></li>
+      </ul>
+    </div>
+  </div>
+  <hr class="footer-divider" />
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 <span>Barbearia do Lorin</span>. Todos os direitos reservados.</p>
+    <p class="footer-copy" style="font-size:0.72rem;">Belo Horizonte · MG · Brasil</p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════
+     FLOATING WHATSAPP
+     SUBSTITUA 5531999999999 pelo seu número
+═══════════════════════════════════════════════ -->
+<a href="https://wa.me/5531999999999?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20um%20horário."
+   class="whatsapp-float"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Fale pelo WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
+<script>
+  /* ── Navbar scroll effect ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* ── Mobile menu ── */
+  const hamBtn = document.getElementById('ham-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+  }
+
+  /* ── Scroll reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  /* ── Hide Calendly placeholder once widget loads ── */
+  window.addEventListener('message', (e) => {
+    if (e.data.event && e.data.event.indexOf('calendly') === 0) {
+      const placeholder = document.getElementById('calendly-placeholder');
+      if (placeholder) placeholder.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html>
