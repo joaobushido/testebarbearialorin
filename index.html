@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia do Lorin | Agendamento</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS EMBUTIDO - DESIGN ESCURO E MODERNO */
+        :root {
+            --bg-color: #09090b;
+            --surface-color: #18181b;
+            --primary-glow: #d4af37; /* Dourado remetendo a barbearia clássica, mas com brilho */
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Cabecalho */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--primary-glow);
+        }
+
+        /* Sessão Principal (Hero) */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, rgba(9, 9, 11, 1) 50%);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        /* Botão com efeito Glow estilo Gemini/Digital Architect */
+        .btn-glow {
+            background: var(--primary-glow);
+            color: #000;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /* Seção de Serviços */
+        .services {
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .services h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            padding: 40px 30px;
+            border-radius: 16px;
+            width: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-glow);
+            transform: translateY(-10px);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-glow);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Seção de Agendamento (Onde vai o Calendly) */
+        .agendamento {
+            padding: 100px 5%;
+            background-color: var(--surface-color);
+            text-align: center;
+        }
+
+        .calendly-wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--bg-color);
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            padding: 40px 20px;
+        }
+
+        .calendly-aviso {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Barbearia do <span>Lorin</span></div>
+        <a href="#agendamento" class="btn-glow" style="padding: 10px 25px; font-size: 0.9rem;">Agendar</a>
+    </header>
+
+    <section class="hero">
+        <h1>Estilo.<br>Precisão.</h1>
+        <p>A experiência clássica de barbearia conectada à facilidade do digital. Seu visual impecável a um clique de distância.</p>
+        <a href="#agendamento" class="btn-glow" id="btn-hero">Garantir Meu Horário</a>
+    </section>
+
+    <section class="services">
+        <h2>Nossos Serviços</h2>
+        <div class="cards-container">
+            <div class="card">
+                <h3>Corte Clássico</h3>
+                <p>Na tesoura ou na máquina, com degradê impecável e finalização com pomada premium.</p>
+            </div>
+            <div class="card">
+                <h3>Barba Terapia</h3>
+                <p>Alinhamento perfeito, toalha quente, massagem facial e navalha para um acabamento liso.</p>
+            </div>
+            <div class="card">
+                <h3>Combo Lorin</h3>
+                <p>Cabelo e Barba. O trato completo para você sair pronto para qualquer compromisso.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="agendamento" class="agendamento">
+        <h2>Agende seu Atendimento</h2>
+        <p style="color: var(--text-muted); margin-top: 10px;">Escolha o melhor dia e horário abaixo.</p>
+        
+        <div class="calendly-wrapper">
+            <p class="calendly-aviso">⚙️ [ Espaço reservado para o Widget do Calendly ]</p>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Barbearia do Lorin. Todos os direitos reservados.
+    </footer>
+
+    <script>
+        // Efeito de rolagem suave extra para o botão do Hero
+        document.getElementById('btn-hero').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#agendamento').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+</body>
+</html>
