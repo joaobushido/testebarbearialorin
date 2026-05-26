@@ -810,9 +810,6 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════
-     NAVBAR
-═══════════════════════════════════════════════ -->
 <nav id="navbar">
   <a href="#" class="nav-brand">Barbearia <span>do Lorin</span></a>
   <ul class="nav-links">
@@ -832,9 +829,6 @@
   <a href="#booking" onclick="closeMobileMenu()" style="color:var(--gold);font-weight:700;">→ Agendar Agora</a>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     HERO
-═══════════════════════════════════════════════ -->
 <section id="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">Belo Horizonte, MG &mdash; Estilo &amp; Tradição</div>
@@ -874,41 +868,30 @@
     </div>
   </div>
 
-  <!-- Decorative SVG (barber scissors/comb) -->
   <div class="hero-deco" aria-hidden="true">
     <svg viewBox="0 0 320 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Razor -->
       <rect x="100" y="40" width="120" height="22" rx="11" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
       <rect x="110" y="44" width="80" height="14" rx="7" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
-      <!-- Handle down -->
       <rect x="148" y="62" width="24" height="200" rx="12" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
-      <!-- Comb lines -->
       <g stroke="rgba(201,168,76,0.2)" stroke-width="1">
         <line x1="60" y1="140" x2="260" y2="140"/><line x1="60" y1="155" x2="260" y2="155"/>
         <line x1="60" y1="170" x2="260" y2="170"/><line x1="60" y1="185" x2="260" y2="185"/>
       </g>
-      <!-- Scissors shape -->
       <circle cx="100" cy="310" r="22" stroke="rgba(201,168,76,0.3)" stroke-width="1.5" fill="none"/>
       <circle cx="220" cy="310" r="22" stroke="rgba(201,168,76,0.3)" stroke-width="1.5" fill="none"/>
       <line x1="116" y1="298" x2="204" y2="322" stroke="rgba(201,168,76,0.25)" stroke-width="2"/>
       <line x1="116" y1="322" x2="204" y2="298" stroke="rgba(201,168,76,0.25)" stroke-width="2"/>
-      <!-- Stars -->
       <circle cx="40" cy="60" r="2" fill="rgba(201,168,76,0.4)"/>
       <circle cx="280" cy="100" r="3" fill="rgba(201,168,76,0.3)"/>
       <circle cx="290" cy="250" r="2" fill="rgba(201,168,76,0.35)"/>
       <circle cx="30" cy="370" r="2.5" fill="rgba(201,168,76,0.3)"/>
-      <!-- Decorative ring -->
       <circle cx="160" cy="210" r="100" stroke="rgba(201,168,76,0.07)" stroke-width="1" stroke-dasharray="6 4"/>
     </svg>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     MARQUEE STRIP
-═══════════════════════════════════════════════ -->
 <div id="strip">
   <div class="marquee-track">
-    <!-- items doubled for seamless loop -->
     <span class="marquee-item"><span class="marquee-dot"></span>Corte de Cabelo</span>
     <span class="marquee-item"><span class="marquee-dot"></span>Barba</span>
     <span class="marquee-item"><span class="marquee-dot"></span>Degradê</span>
@@ -928,9 +911,6 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SERVICES
-═══════════════════════════════════════════════ -->
 <section id="services">
   <div class="container">
     <div class="reveal">
@@ -980,9 +960,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     ABOUT
-═══════════════════════════════════════════════ -->
 <section id="about">
   <div class="container">
     <div class="about-grid">
@@ -1026,9 +1003,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     BOOKING (CALENDLY)
-═══════════════════════════════════════════════ -->
 <section id="booking">
   <div class="container">
     <div class="booking-inner reveal">
@@ -1040,22 +1014,13 @@
     </div>
 
     <div class="calendly-wrapper reveal reveal-delay-1">
-      <!-- ================================================
-           INSTRUÇÕES PARA O DONO:
-           1. Vá em calendly.com e crie sua conta (é gratuito)
-           2. Crie um "Event Type" para cada serviço
-           3. Copie o link do seu perfil Calendly
-              Ex: https://calendly.com/SEU-NOME
-           4. Substitua "SEU-USUARIO-AQUI" abaixo pelo seu link
-           ================================================ -->
       <div
         class="calendly-inline-widget"
-        data-url="https://calendly.com/SEU-USUARIO-AQUI?hide_event_type_details=0&background_color=111111&text_color=e8e0d0&primary_color=c9a84c"
+        data-url="https://calendly.com/SEU_LINK_DO_CALENDLY?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=1a1a1a&text_color=e8e0d0&primary_color=c9a84c"
         style="min-width:320px; height:700px;"
       ></div>
       <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
-      <!-- Placeholder visível até o Calendly estar configurado -->
       <div id="calendly-placeholder" style="
         display:flex; flex-direction:column; align-items:center;
         justify-content:center; min-height:500px; gap:1.5rem;
@@ -1078,9 +1043,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     TESTIMONIALS
-═══════════════════════════════════════════════ -->
 <section id="testimonials">
   <div class="container">
     <div class="reveal">
@@ -1126,9 +1088,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     CTA BANNER
-═══════════════════════════════════════════════ -->
 <section id="cta">
   <div class="container" style="position:relative; z-index:1;">
     <h2 class="cta-title reveal">Pronto para o melhor <span>corte da sua vida?</span></h2>
@@ -1142,9 +1101,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════════════ -->
 <footer>
   <div class="footer-grid">
     <div>
@@ -1163,7 +1119,6 @@
     <div>
       <div class="footer-heading">Contato</div>
       <ul class="footer-links">
-        <!-- Substitua pelos dados reais -->
         <li><a href="https://wa.me/5531999999999">WhatsApp</a></li>
         <li><a href="https://instagram.com/barbeariadolorin">Instagram</a></li>
         <li><a href="#">Belo Horizonte, MG</a></li>
@@ -1177,23 +1132,15 @@
   </div>
 </footer>
 
-<!-- ══════════════════════════════════════════════
-     FLOATING WHATSAPP
-     SUBSTITUA 5531999999999 pelo seu número
-═══════════════════════════════════════════════ -->
 <a href="https://wa.me/5531999999999?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20um%20horário."
    class="whatsapp-float"
    target="_blank"
    rel="noopener noreferrer"
    aria-label="Fale pelo WhatsApp">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<!-- ══════════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════════ -->
 <script>
   /* ── Navbar scroll effect ── */
   const navbar = document.getElementById('navbar');
